@@ -14,9 +14,9 @@ struct ReviewNode {
 };
 
 // Function prototypes
-void addToHead(ReviewNode *, float, string&);
-void addToTail(ReviewNode *, float, string&);
-void displayReviews();
+void addToHead(ReviewNode *&, float, string&);
+void addToTail(ReviewNode *&, float, string&);
+void displayReviews(ReviewNode *);
 
 int main(){
     ReviewNode * head = nullptr;
@@ -35,14 +35,17 @@ int main(){
 
         cout << "Enter review rating 0-5: ";
         cin >> rating;
+        cin.ignore();
 
         cout << "Enter review comments: ";
         getline(cin, comment);
 
         if (choice == 1){
             addToHead(head, rating, comment);
-        } else{
+        } else if (choice == 2){
             addToTail(head, rating, comment);
+        } else {
+            cout << "Invalid input. Please try again and enter either 1 or 2. \n";
         }
 
         cout << "Enter another review? Y/N: ";
@@ -50,7 +53,7 @@ int main(){
     } while (anotherReview == 'Y' || anotherReview == 'y');
 
     cout << "\nOutputting all reviews:\n";
-    displayReviews();
+    displayReviews(head);
 
     return 0;
 }
