@@ -26,9 +26,18 @@ int main(){
     cout << "Which linked list method should we use?\n";
     cout << "    [1] New nodes are added at the head of the linked list\n";
     cout << "    [2] New nodes are added at the tail of the linked list\n";
-    cout << "Choice: ";
-    cin >> choice;
 
+    while (true) {
+        cout << "Choice: ";
+        cin >> choice;
+
+        if (choice == 1 || choice == 2) {
+            break; // Valid choice, exit loop
+        } else {
+            cout << "Invalid choice. Please enter 1 or 2." << endl;
+        }
+    }
+    
     do{
         float rating;
         string comment;
@@ -42,10 +51,8 @@ int main(){
 
         if (choice == 1){
             addToHead(head, rating, comment);
-        } else if (choice == 2){
-            addToTail(head, rating, comment);
         } else {
-            cout << "Invalid input. Please try again and enter either 1 or 2. \n";
+            addToTail(head, rating, comment);
         }
 
         cout << "Enter another review? Y/N: ";
