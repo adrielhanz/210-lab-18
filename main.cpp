@@ -10,14 +10,16 @@ using namespace std;
 struct ReviewNode {
     float rating;
     string comment;
+    ReviewNode * next;
 };
 
 // Function prototypes
-void addToHead();
-void addToTail();
+void addToHead(ReviewNode *, float, string&);
+void addToTail(ReviewNode *, float, string&);
 void displayReviews();
 
 int main(){
+    ReviewNode * head = nullptr;
     int choice;
     char anotherReview;
 
@@ -38,22 +40,61 @@ int main(){
         getline(cin, comment);
 
         if (choice == 1){
-            addToHead();
+            addToHead(head, rating, comment);
         } else{
-            addToTail();
+            addToTail(head, rating, comment);
         }
 
-        cout << "Enter another review? Y/N: "
-    } while (anotherReview == 'Y' || anotherReview == 'y')
+        cout << "Enter another review? Y/N: ";
+        cin >> anotherReview;
+    } while (anotherReview == 'Y' || anotherReview == 'y');
+
+    cout << "\nOutputting all reviews:\n";
+    displayReviews();
+
+    return 0;
 }
 
 // Function definitions
-void addToHead(){
-
+void addToHead(ReviewNode *& head, float rating, string& comment){
+    ReviewNode * newNode= new ReviewNode;
+    newNode->rating = rating;
+    newNode->comment = comment;
+    newNode->next = head;
+    head = newNode;
 }
-void addToTail(){
+void addToTail(ReviewNode *& head, float rating, string& comment){
+    ReviewNode * newNode= new ReviewNode;
+    newNode->rating = rating;
+    newNode->comment = comment;
+    newNode->next = nullptr;
 
+    if (head == nullptr){
+        head = newNode;
+    } else{
+        ReviewNode * temp = head;
+        while (temp->next != nullptr){
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
 }
-void displayReviews(){
+void displayReviews(ReviewNode * head){
+    ReviewNode* temp = head;
+    int count = 0;
+    float totalRating = 0.0;
 
+    while (temp != nullptr) {
+        count++;
+        cout << "> Review #" << count << ": " << temp->rating << ": " << temp->comment << endl;
+        totalRating += temp->rating;
+        temp = temp->next;
+    }
+
+    if (count > 0) {
+        float average = totalRating / count;
+        cout << "> Average: " << average << endl;
+    } else {
+        cout << "No reviews to display." << endl;
+    }
 }
